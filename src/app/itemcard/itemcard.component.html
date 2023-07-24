@@ -1,0 +1,85 @@
+<div *ngIf="id === 'yourInventory'" class="grid-container">
+    <div class="column1">
+        <p style="padding:auto;"> Total Weight: {{totalWeight}} lbs </p>
+    </div>
+    <div class="column2">
+        <p style="margin:0; margin-top:2px;"> 
+            Money: {{moneyPouch[0].value}} pt {{moneyPouch[1].value}} gp {{moneyPouch[2].value}} ep {{moneyPouch[3].value}} sp {{moneyPouch[4].value}} cp
+            <button style="top: 4px; padding: 0; height: 36px; width: 36px; " mat-icon-button aria-label="change money button" (click)="openChangeMoneyDialog()">
+                <mat-icon style="position: relative; top: 2px; left: 1px;">receipt</mat-icon>
+            </button>
+        </p>
+    </div>
+</div>
+<div *ngIf="itemDetailsCalled">
+    <mat-chip *ngIf="filterBox" class="solo-chip" (click)="toggleFilterbox()">
+        <mat-icon matChipAvatar aria-hidden="false"  fontIcon="filter_list" alt="filter image"></mat-icon>
+        {{filterBox ? "Hide":"Show"}} filter options
+    </mat-chip>
+    <div *ngIf="filterBox" id="filter-box">
+        <p class="filter-header">Filter Item Category</p>
+        <mat-chip-listbox selectable multiple aria-label="item category filter selection">
+            <mat-chip-option  color="accent" *ngFor="let category of filterNameLists['category_options']" ariaSelected="isSelected(category, 'scategory_options')" [selected]="isSelected(category, 'category_options')" [value]="category" (click)="filtering(category, 'category_options')">
+                {{category}}
+            </mat-chip-option>
+        </mat-chip-listbox>
+        <p class="filter-header">Filter Rarities</p>
+        <mat-chip-listbox selectable multiple aria-label="item rarity selection">
+            <mat-chip-option color="accent" *ngFor="let rarity of filterNameLists['rarities']" ariaSelected="isSelected(rarity, 'rarities')" [selected]="isSelected(rarity, 'rarities')" [value]="rarity" (click)="filtering(rarity, 'rarities')">
+                {{rarity}}
+            </mat-chip-option>
+        </mat-chip-listbox>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-chip class="solo-chip" (click)="toggleFilterbox()">
+        <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="filter image"></mat-icon>
+        {{filterBox ? "Hide":"Show"}} filter options
+    </mat-chip>
+    <mat-chip *ngIf="id === 'yourInventory'" class="solo-chip" (click)="openDialog()">
+        <mat-icon matChipAvatar aria-hidden="false"fontIcon="filter_list" alt="plus image"></mat-icon>
+        Add Item
+    </mat-chip>
+</div>
+<div *ngIf="!itemDetailsCalled">
+    <p>Loading item details...</p>
+</div>
+
+<div *ngIf="id==='yourInventory'; else elseTableBlock">
+    <div *ngFor="let container of containers">
+        <p style="margin-top: 0;"> 
+            <button *ngIf="container['name'] != 'Equipment'" style="padding: 0; height: 36px; width: 36px; top: 4px;" mat-icon-button aria-label="delete container" (click)="openDeleteDialog(container['id'])">
+                <mat-icon style="position: relative; top: 2px;">cancel</mat-icon>
+            </button>
+            <b>{{container["name"]}}</b> 
+            <span *ngIf="container['name'] != 'Equipment'; else elseContainerDetailBlock"> (weighs {{container["weight"]}} lbs) Contains {{container["weightContained"]}}/{{container["maxWeightIn"]}} lbs </span>
+            <ng-template #elseContainerDetailBlock>
+                Contains {{container["weightContained"]}} lbs 
+            </ng-template>
+            <button style="padding: 0; height: 36px; width: 36px; top: 4px;" mat-icon-button aria-label="expand row" (click)="changeContainerExpanse(container['id'])">
+                <mat-icon style="position: relative; top: 2px;" *ngIf="!isContainerExpanded(container['id'])">keyboard_arrow_down</mat-icon>
+                <mat-icon style="position: relative; top: 2px;" *ngIf="isContainerExpanded(container['id'])">keyboard_arrow_up</mat-icon>
+            </button>
+        </p>
+        <div [@containerExpand]="isContainerExpanded(container['id']) ? 'expanded' : 'collapsed'">
+            <app-paginatedtable
+                [id]="id"
+                [data]="dataFilteredByContainers[container['id']]"
+                [displayedColumns]="displayedColumns"
+                [noData]="noItems"
+                [detailsCalled]="itemDetailsCalled"
+                dataType="item"
+            ></app-paginatedtable>
+        </div>
+    </div>
+</div>
+<ng-template #elseTableBlock>
+    <app-paginatedtable
+        [id]="id"
+        [data]="data" 
+        [displayedColumns]="displayedColumns"
+        [noData]="noItems"
+        [detailsCalled]="itemDetailsCalled"
+        dataType="item"
+    ></app-paginatedtable>
+</ng-template>
+

@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-scss';
+  toggleDarkTheme(): void {
+    document.body.classList.toggle('dark-theme');
+ }
 }

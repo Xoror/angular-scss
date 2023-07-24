@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Change Money</h1>
+<div mat-dialog-content class="input-list">
+    <form [formGroup]="addItemForm">
+        <mat-form-field color="accent" cdkFocusInitial>
+            <mat-label id="money-platinum">Platinum:</mat-label>
+            <input aria-labelledby="money-platinum" matInput type="number" min="0" formControlName="platinum"/>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label id="money-gold">Gold:</mat-label>
+            <input aria-labelledby="money-gold" matInput type="number" min="0" formControlName="gold"/>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label id="money-electrum">Electrum:</mat-label>
+            <input aria-labelledby="money-electrum" matInput type="number" min="0" formControlName="electrum"/>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label id="money-silver">Silver:</mat-label>
+            <input aria-labelledby="money-silver" matInput type="number" min="0" formControlName="silver"/>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label id="money-copper">Copper:</mat-label>
+            <input aria-labelledby="money-copper" matInput type="number" min="0" formControlName="copper"/>
+        </mat-form-field>
+        <div mat-dialog-actions>
+            <button style="font-size: 1.1em;" color="accent" mat-flat-button (click)="onNoClick(); $event.stopPropagation()">Cancel</button>
+            <button style="font-size: 1.1em;" color="accent" mat-flat-button [mat-dialog-close]="'Closed Dialog'" (click)="onSubmit()">Save Changes</button>
+        </div>
+    </form>
+</div>

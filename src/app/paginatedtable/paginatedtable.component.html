@@ -1,0 +1,75 @@
+<table mat-table matSort
+       [dataSource]="dataSource" multiTemplateDataRows
+       class="table" (matSortChange)="announceSortChange($event)" [attr.aria-label]="tableCaption">
+
+    <ng-container *ngIf="!noData" matColumnDef="learn">
+        <th mat-header-cell *matHeaderCellDef>Learn</th>
+        <td mat-cell *matCellDef="let spell">
+            <button *ngIf="id === 'allSpells'" mat-icon-button aria-label="Button to learn a spell" (click)="learnSpell(spell); $event.stopPropagation();">
+                <mat-icon>add_circle_outline</mat-icon>
+            </button>
+            <button *ngIf="id === 'yourSpells'" mat-icon-button aria-label="Button to remove a spell" (click)="removeSpell(spell); $event.stopPropagation();">
+                <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+    <ng-container *ngIf="!noData" matColumnDef="add">
+      <th mat-header-cell *matHeaderCellDef>Add</th>
+      <td mat-cell *matCellDef="let item">
+          <button *ngIf="id === 'allItems'" mat-icon-button aria-label="Button to add an item" (click)="addItem(item); $event.stopPropagation();">
+              <mat-icon>add_circle_outline</mat-icon>
+          </button>
+          <button *ngIf="id === 'yourInventory'" mat-icon-button aria-label="Button to remove an item" (click)="removeItem(item); $event.stopPropagation();">
+              <mat-icon>remove_circle_outline</mat-icon>
+          </button>
+      </td>
+  </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let spell"> {{spell.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="level">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Level</th>
+        <td mat-cell *matCellDef="let spell"> {{spell.level}} </td>
+    </ng-container>
+    <ng-container matColumnDef="rarity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rarity</th>
+      <td mat-cell *matCellDef="let item"> {{item.rarity}} </td>
+  </ng-container>
+  
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">Deatils</th>
+    <td mat-cell *matCellDef="let spell">
+      <button mat-icon-button aria-label="expand row" (click)="changeExpandedElementVariable(spell, $event); $event.stopPropagation()">
+        <mat-icon *ngIf="expandedElement.id !== spell.id">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement.id === spell.id">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td id="test" mat-cell *matCellDef="let spell" [attr.colspan]="displayedColumnsWithExpand.length">
+      <div  [@detailExpand]="spell.id == expandedElement.id ? 'expanded' : 'collapsed'">
+        <app-spellinfo *ngIf="dataType == 'spell'; else elseDetailCard" [data]="spell"></app-spellinfo>
+        <ng-template #elseDetailCard>
+          <app-iteminfo [data]="spell"></app-iteminfo>
+        </ng-template>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsWithExpand"></tr>
+  <tr mat-row *matRowDef="let spell; columns: displayedColumnsWithExpand;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement.id === spell.id"
+      (click)="changeExpandedElementVariable(spell, $event)">
+  </tr>
+  <tr mat-row *matRowDef="let spell; columns: ['expandedDetail']" class="example-detail-row" [style.height]="expandedElement.id === spell.id ? 52:0"></tr>
+</table>
+<mat-paginator class="paginator" [pageSizeOptions]="[5, 10, 20, 50, 100]" color="accent"
+                showFirstLastButtons
+                >
+</mat-paginator>

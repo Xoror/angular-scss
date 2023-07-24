@@ -1,0 +1,25 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content class="sidenav-content">
+    <mat-toolbar>
+      <button
+        type="button"
+        aria-label="menu button"
+        mat-icon-button
+        [matMenuTriggerFor]="mainMenu"
+        >
+        <mat-icon aria-label="menu icon">menu</mat-icon>
+      </button>
+      <span>Spells and Inventory Manager</span>
+      <mat-menu #mainMenu>
+        <mat-nav-list style="padding:0; background-color: rgb(214, 214, 214);">
+          <ng-template overlayPanelClass="menu-panel" matMenuContent>
+            <a mat-menu-item routerLink="/">Home</a>
+            <a mat-menu-item routerLink="/spells">Spells</a>
+            <a mat-menu-item routerLink="/inventory">Inventory</a>
+          </ng-template>
+        </mat-nav-list>
+      </mat-menu>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

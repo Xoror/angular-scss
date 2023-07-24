@@ -1,0 +1,29 @@
+<div class="grid-container">
+    <div class="title-box header">
+        <h4 class="title"> {{data.name}}</h4>
+        <p class="paragraph" style="padding-left: 0;"> ({{data.category}}, {{data.rarity}}) </p>
+    </div>
+    <div class="column1">
+        <p class="paragraph">Quantity:</p>
+    </div>
+    <div class="column2">
+        <p class="paragraph" style="text-align: end;">{{data.qty}}</p>
+    </div>
+    <div class="column1">
+        <p class="paragraph">Worth:</p>
+    </div>
+    <div class="column2">
+        <p class="paragraph" style="text-align: end;">{{data.worth}}</p>
+    </div>
+    <div class="column1">
+        <p class="paragraph">Weight:</p>
+    </div>
+    <div class="column2">
+        <p class="paragraph" style="text-align: end;">{{data.weight}}</p>
+    </div>
+    <div class="column3">
+        <p *ngFor="let item of data.description; index as i; last as isLast;" class="paragraph">
+            <b *ngIf="false"> At higher levels </b> {{item}}
+        </p>
+    </div>
+</div>

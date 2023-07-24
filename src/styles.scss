@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+
+$color-1: #5f6f52;
+$color-2: #a9b388;
+$color-3: #fefae0;
+$color-4: #f9ebc7;
+$color-5: #b99470;
+$color-6: #c4661f;
+$color-7: #783d19;
+
+html, body { 
+    height: 100%; 
+}
+body { 
+    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.mat-dialog-surface {
+    background-color:  #5f6f52 !important;
+}

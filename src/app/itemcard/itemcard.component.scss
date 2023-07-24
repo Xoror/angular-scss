@@ -1,0 +1,27 @@
+.solo-chip {
+    margin-top: 4px; 
+    margin-bottom: 4px;
+    background-color: rgb(224, 224, 224);
+    &:hover {
+      cursor: pointer;
+    }
+}
+
+.column1 {
+  grid-area: auto / 1 / span 1 / span 2;
+  text-align: left;
+}
+.column2 {
+  grid-area: auto / 3 / span 1 / span 2;
+  text-align: right;
+}
+
+
+.grid-container {
+    display: grid;
+    grid:
+        'header header header header'
+        'column1 column2 column3 column4';
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+}

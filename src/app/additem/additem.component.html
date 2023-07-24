@@ -1,0 +1,97 @@
+<h1 mat-dialog-title>Add Item</h1>
+<div mat-dialog-content class="input-list">
+    <form [formGroup]="addItemForm">
+        <mat-form-field color="accent">
+            <mat-label id="name">Item Name:</mat-label>
+            <input aria aria-labelledby="name" matInput type="text" formControlName="name" cdkFocusInitial/>
+        </mat-form-field>
+        <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+        <mat-form-field color="accent">
+            <mat-label id="container">Container:</mat-label>
+            <mat-select aira-labelledby="container" formControlName="container">
+                <div *ngFor="let item of containers">
+                    <mat-option (onSelectionChange)="changeContainerSelect($event, 'bla')"  [value]="item['id']">{{item["name"]}}</mat-option>
+                </div>
+                <mat-option (onSelectionChange)="changeContainerSelect($event, 'custom')" value="custom">Custom</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label>Category:</mat-label>
+            <mat-select formControlName="category">
+                <div *ngFor="let item of category_options">
+                    <mat-option  [value]="item">{{item}}</mat-option>
+                </div>
+            </mat-select>
+        </mat-form-field>
+        <br>
+        <div *ngIf="customContainer">
+            <form [formGroup]="createContainerForm" (ngSubmit)="createNewContainer()">
+                <mat-form-field color="accent">
+                    <mat-label id="container-name">Name:</mat-label>
+                    <input aria-labelledby="container-name" matInput type="text" formControlName="name"/>
+                </mat-form-field>
+                <mat-form-field color="accent">
+                    <mat-label id="container-weight">Container Weight:</mat-label>
+                    <input aria-labelledby="container-weight" matInput type="number" min="0" formControlName="weight"/>
+                </mat-form-field>
+                <mat-form-field color="accent">
+                    <mat-label id="container-max-weight">Maximum Weight in Container:</mat-label>
+                    <input aria-labelledby="container-max-weight" matInput type="number" min="0" formControlName="maxWeightIn"/>
+                </mat-form-field>
+                <button style="color: black; font-size: 1.1em;" color="accent" mat-flat-button type="submit"> Create Container </button>
+            </form>
+        </div>
+        <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+        <mat-form-field color="accent">
+            <mat-label id="quantity">Quantity:</mat-label>
+            <input aria-labelledby="quantity" matInput type="number" min="1" formControlName="qty"/>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label id="worth">Worth:</mat-label>
+            <input aria-labelledby="worth" matInput type="number" min="0" formControlName="worth"/>
+        </mat-form-field>
+        <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+        <mat-form-field color="accent">
+            <mat-label id="weight">Weight:</mat-label>
+            <input aria-labelledby="weight" matInput type="number" min="0" formControlName="weight"/>
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label>Rarity:</mat-label>
+            <mat-select formControlName="rarity">
+                <div *ngFor="let item of rarities">
+                    <mat-option  [value]="item">{{item}}</mat-option>
+                </div>
+            </mat-select>
+        </mat-form-field>
+        <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+        <mat-form-field color="accent">
+            <mat-label>Attunable:</mat-label>
+            <mat-select formControlName="attunable">
+                <div *ngFor="let item of [true, false]">
+                    <mat-option (onSelectionChange)="changeAttuneRequirement($event)" [value]="item">{{item ? "True":"False"}}</mat-option>
+                </div>
+            </mat-select>
+        </mat-form-field>
+        <div  *ngIf="requiresAttunement" >
+            <mat-form-field color="accent">
+                <mat-label>Attunement Requirement:</mat-label>
+                <textarea  matInput type="text" formControlName="attuneRequirement"></textarea>
+            </mat-form-field>
+        </div>
+        <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+        <mat-form-field color="accent">
+            <mat-label>Description:</mat-label>
+            <textarea  matInput type="text" formControlName="description"></textarea>
+        </mat-form-field>
+        <p>*: Field required.</p>
+        <div mat-dialog-actions>
+            <button style="font-size: 1.1em;" color="accent" mat-flat-button (click)="onNoClick($event)">No Thanks</button>
+            <button [disabled]="addItemForm.getRawValue().container != 'custom' ? !addItemForm.valid : true" style="font-size: 1.1em;" color="accent" mat-flat-button [mat-dialog-close]="addItemForm.getRawValue()" type="submit" (click)="onSubmit()">Ok</button>
+        </div>
+    </form>
+</div>

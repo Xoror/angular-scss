@@ -1,0 +1,30 @@
+@use '../../styles';
+
+.sidenav-container {
+  background-color: styles.$color-2;
+  height: 100%;
+}
+
+.sidenav {
+  width: 120px;
+  background-color: styles.$color-5;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-toolbar {
+  background-color: styles.$color-1;
+}
+
+.menu-panel {
+  background-color: red;
+  padding: 0;
+}

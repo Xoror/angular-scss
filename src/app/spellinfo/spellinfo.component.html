@@ -1,0 +1,43 @@
+<div class="grid-container">
+    <div class="title-box header">
+        <h4 class="title"> {{data.name}}</h4>
+        <p class="paragraph" style="padding-left: 0;"> Classes: {{classes}}</p>
+    </div>
+    <div class="column1">
+        <p class="paragraph">Casting Time:</p>
+    </div>
+    <div class="column2">
+        <p class="paragraph" style="text-align: end;">{{!data.ritual ? data.casting_time : data.casting_time + " or Ritual"}}</p>
+    </div>
+    <div class="column1">
+        <p class="paragraph">Duration:</p>
+    </div>
+    <div class="column2">
+        <p class="paragraph" style="text-align: end;">{{data.concentration ? data.duration + " (Concentration)" : data.duration}}</p>
+    </div>
+    <div class="column1">
+        <p class="paragraph">Range:</p>
+    </div>
+    <div class="column2">
+        <p class="paragraph" style="text-align: end;">{{data.area_of_effect ? data.range + areaOfEffect : data.range}}</p>
+    </div>
+    <div class="column1">
+        <p class="paragraph">Components:</p>
+    </div>
+    <div class="column2">
+        <p class="paragraph" style="text-align: end;">{{components}}</p>
+    </div>
+    <div class="column3">
+        <p *ngFor="let item of data.desc; index as i; last as isLast;" class="paragraph">
+            <b *ngIf="isLast && data.level === 0"> At higher levels </b> {{item}}
+        </p>
+        <p *ngIf="data.level != 0" class="paragraph">
+            <b> At higher levels: </b> {{data.higher_level != undefined ? data.higher_level : "-"}}
+        </p>
+    </div>
+    <div class="column3" style="border-top: 1px solid black;">
+        <p class="paragraph" style="text-align: end;">
+            {{spellTiers[data.level]}} Level {{data.school != undefined ? data.school.name : null}} spell
+        </p>
+    </div>
+</div>

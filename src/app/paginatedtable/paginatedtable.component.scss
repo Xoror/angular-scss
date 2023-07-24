@@ -1,0 +1,65 @@
+@use '../../custom-theme';
+@use './../../styles';
+
+
+.mat-column-learn {
+    width: 50px;
+    border-right: 1px solid currentColor;
+}
+.mat-column-add {
+  width: 50px;
+  border-right: 1px solid currentColor;
+}
+.mat-column-expand {
+  width: 50px;
+}
+.table {
+    background-color: rgb(224, 224, 224);
+}
+.paginator {
+    background-color: rgb(214, 214, 214);
+}
+  
+tr.example-detail-row {
+    flex-basis: 0;
+    min-height: initial;
+}
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }

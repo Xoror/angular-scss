@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Destroy Container</h1>
+<div mat-dialog-content class="input-list">
+    <p> <b>You're about to destroy container "{{containerToBeDestroyed["name"]}}"!</b> Would you like to keep the Items? </p>
+    <mat-form-field color="accent" cdkFocusInitial>
+        <mat-label id="destroy-items-choice">Destroy Items:</mat-label>
+        <mat-select formControlName="attunable">
+            <div *ngFor="let item of [true, false]">
+                <mat-option (onSelectionChange)="changeDestroyItems($event)" [value]="item">{{item ? "Yes":"No"}}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+    <div *ngIf="!destroyItems">
+        <p>Choose which container the items are moved to</p>
+        <mat-form-field color="accent">
+            <mat-label id="move-to-container">Container:</mat-label>
+            <mat-select formControlName="container">
+                <div *ngFor="let item of remainingContainers">
+                    <mat-option (onSelectionChange)="changeMoveToContainer(item['id'])"  [value]="item['id']">{{item["name"]}}</mat-option>
+                </div>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button style="font-size: 1.1em;" color="accent" mat-flat-button (click)="onNoClick()">Cancel</button>
+        <button style="font-size: 1.1em;" color="accent" mat-flat-button [mat-dialog-close]="'Closed Dialog'" (click)="onSubmit()">Save Changes</button>
+    </div>
+</div>

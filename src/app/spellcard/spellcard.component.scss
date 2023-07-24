@@ -1,0 +1,12 @@
+.solo-chip {
+    margin-top: 4px; 
+    margin-bottom: 4px;
+    background-color: rgb(224, 224, 224);
+    &:hover {
+      cursor: pointer;
+    }
+}
+
+.dialog-background {
+  background-color: red;// rgb(224, 224, 224);
+}

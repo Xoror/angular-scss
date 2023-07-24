@@ -1,0 +1,119 @@
+<h1 mat-dialog-title>Add Custom Spell</h1>
+<div mat-dialog-content class="input-list">
+    <mat-form-field color="accent" cdkFocusInitial>
+        <mat-label id="custom-spell-name">Name:</mat-label>
+        <input aria-labelledby="custom-spell-name" matInput type="text" (change)="changeData('name', $event)" [value]="data.name"/>
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-level">Spell Level:</mat-label>
+        <input aria-labelledby="custom-spell-level" matInput type="number" min="0" max="9" (change)="changeData('level', $event)" [value]="data.level"/>
+    </mat-form-field>
+    <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-classes">Classes</mat-label>
+        <mat-select >
+            <mat-option default>""</mat-option>
+            <div *ngFor="let class of classes">
+                <mat-option *ngIf="isDisplayed(class)" [value]="class" (onSelectionChange)="changeData('classes', $event)">{{class}}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-school">School</mat-label>
+        <mat-select >
+            <div *ngFor="let school of schools">
+                <mat-option [value]="school" (onSelectionChange)="changeData('school', $event)">{{school}}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+    <p *ngIf="data.classes.length != 0" style="margin-top: 0; margin-bottom: 0;">Selected classes: </p>
+    <mat-chip-set role="list" style="margin-bottom: 20px;">
+        <mat-chip *ngFor="let class of data.classes" role="listitem" (removed)="removeSelectedClass(class)">
+             {{class.name}}
+             <button matChipRemove [attr.aria-label]="'remove ' + class">
+                <mat-icon>cancel</mat-icon>
+              </button>
+        </mat-chip>
+    </mat-chip-set>
+    <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-casting-time">Casting Time</mat-label>
+        <input aria-labelledby="custom-spell-casting-time" matInput  type="text" (change)="changeData('casting', $event)" [value]="data.casting_time">
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label is="custom-spell-is-ritual">Ritual</mat-label>
+        <mat-select>
+            <div *ngFor="let item of [true, false]">
+                <mat-option  [value]="item" (onSelectionChange)="changeData('ritual', $event)">{{item ? "True":"False"}}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+    <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-duration">Duration</mat-label>
+        <input aria-labelledby="custom-spell-duration" matInput type="text" (change)="changeData('duration', $event)" [value]="data.duration">
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-concentration">Concentration</mat-label>
+        <mat-select >
+            <div *ngFor="let item of [true, false]">
+                <mat-option  [value]="item" (onSelectionChange)="changeData('concentration', $event)">{{item ? "True":"False"}}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+    <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-is-aoe">Area of Effect</mat-label>
+        <mat-select>
+            <div *ngFor="let item of [true, false]">
+                <mat-option  [value]="item" (onSelectionChange)="hasAoE = $event.source.value">{{item ? "True":"False"}}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label id="custom-spell-range">Range</mat-label>
+        <input aria-labelledby="custom-spell-range" matInput type="text" (change)="changeData('range', $event)" [value]="data.range">
+    </mat-form-field>
+    <div *ngIf="hasAoE">
+        <mat-form-field color="accent">
+            <mat-label id="custom-spell-aoe-type">Area of Effect Type</mat-label>
+            <input aria-labelledby="custom-spell-aoe-type" matInput type="text" (change)="changeData('aoe_type', $event)" [value]="data.area_of_effect.type">
+        </mat-form-field>
+        <mat-form-field color="accent">
+            <mat-label id="custom-spell-aoe-size">Area of Effect Size (ft)</mat-label>
+            <input aria-labelledby="custom-spell-aoe-size" matInput type="number" (change)="changeData('aoe_size', $event)" [value]="data.area_of_effect.size">
+        </mat-form-field>
+    </div>
+    <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+    <label for="componentsList" id="componentsList" aria-label="components-list">Components</label>
+    <mat-chip-listbox  id="componentsList" aria-label="components-list" aria-labelledby="componentsList" name="components" aria-label="choose spell components" multiple="true" (change)="changeData('components', $event)">
+        <mat-chip-option color="accent" value="V" [selected]="components.vocal.has" (selectionChange)="changeComponents('vocal', $event)">V</mat-chip-option>
+        <mat-chip-option color="accent" value="S" [selected]="components.somatic.has" (selectionChange)="changeComponents('somatic', $event)">S</mat-chip-option>
+        <mat-chip-option color="accent" value="M" [selected]="components.material.has" (selectionChange)="changeComponents('material', $event)">M</mat-chip-option>
+      </mat-chip-listbox>
+    <mat-form-field *ngIf="components.material.has" color="accent">
+        <mat-label >Material Description</mat-label>
+        <textarea matInput (change)="changeData('material', $event)">{{data.material}}</textarea>
+    </mat-form-field>
+    <mat-divider style="border-top-color: black; margin-bottom:24px;"></mat-divider>
+
+    <mat-form-field color="accent">
+        <mat-label>Description</mat-label>
+        <textarea matInput (change)="changeData('desc', $event)">{{data.desc[0]}}</textarea>
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <mat-label>At higher Levels</mat-label>
+        <textarea matInput (change)="changeData('higher_level', $event)">{{data.desc[1]}}</textarea>
+    </mat-form-field>
+  
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.name" (click)="onSubmit()" >Ok</button>
+</div>
+

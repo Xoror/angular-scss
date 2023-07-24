@@ -1,0 +1,52 @@
+<div *ngIf="spellDetailsCalled">
+    <mat-chip *ngIf="filterBox" class="solo-chip" (click)="toggleFilterbox()">
+        <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="filter"></mat-icon>
+        {{filterBox ? "Hide":"Show"}} filter options
+    </mat-chip>
+    <div *ngIf="filterBox" id="filter-box">
+        <p class="filter-header">Filter Spell Tier</p>
+        <mat-chip-listbox selectable multiple aria-label="Spell level filter selection">
+            <mat-chip-option  color="accent" *ngFor="let level of filterNameLists['spellLevels']" ariaSelected="isSelected(level, 'spellLevels')" [selected]="isSelected(level, 'spellLevels')" [value]="level" (click)="filtering(level, 'spellLevels')">
+                {{level}}
+            </mat-chip-option>
+        </mat-chip-listbox>
+        <p class="filter-header">Filter Classes</p>
+        <mat-chip-listbox selectable multiple aria-label="Fish selection">
+            <mat-chip-option color="accent" *ngFor="let class of filterNameLists['classes']" ariaSelected="isSelected(class, 'classes')" [selected]="isSelected(class, 'classes')" [value]="class" (click)="filtering(class, 'classes')">
+                {{class}}
+            </mat-chip-option>
+        </mat-chip-listbox>
+        <p class="filter-header">Filter Magic Schools</p>
+        <mat-chip-listbox selectable multiple aria-label="Fish selection">
+            <mat-chip-option color="accent" *ngFor="let school of filterNameLists['schools']" ariaSelected="isSelected(school, 'schools')" [selected]="isSelected(school, 'schools')" [value]="school" (click)="filtering(school, 'schools')">
+                {{school}}
+            </mat-chip-option>
+        </mat-chip-listbox>
+        <p class="filter-header"> Filter Ritual Spell</p>
+        <mat-chip-listbox selectable multiple aria-label="Fish selection">
+            <mat-chip-option color="accent" *ngFor="let ritual of filterNameLists['rituals']" ariaSelected="isSelected(ritual, 'rituals')" [selected]="isSelected(ritual, 'rituals')" [value]="ritual" (click)="filtering(ritual, 'rituals')">
+                {{ritual}}
+            </mat-chip-option>
+        </mat-chip-listbox> 
+    </div>
+    <mat-divider></mat-divider>
+    <mat-chip class="solo-chip" (click)="toggleFilterbox()">
+        <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="filter"></mat-icon>
+        {{filterBox ? "Hide":"Show"}} filter options
+    </mat-chip>
+    <mat-chip *ngIf="id === 'yourSpells'" class="solo-chip" (click)="openDialog()">
+        <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="add"></mat-icon>
+        Add Spell
+    </mat-chip>
+</div>
+<div *ngIf="!spellDetailsCalled">
+    <p>Loading spell details...</p>
+</div>
+<app-paginatedtable
+    [id]="id"
+    [data]="data" 
+    [displayedColumns]="displayedColumns"
+    [noData]="noSpells"
+    [detailsCalled]="spellDetailsCalled"
+    dataType="spell"
+></app-paginatedtable>

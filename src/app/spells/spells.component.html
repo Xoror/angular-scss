@@ -1,0 +1,29 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Spell Manager</h1>
+    <mat-grid-list style="height: calc(100vh - 164px);" cols="2" rowHeight="fit">
+        <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+        <mat-card class={{card.class}}>
+            <mat-card-header>
+                <mat-card-title>
+                    <h3>{{card.title}}</h3>
+                    <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                    <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>Expand</button>
+                    <button mat-menu-item>Remove</button>
+                    </mat-menu>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="card-content">
+                <div *ngIf="card.title==='All Spells'">
+                    <app-spellcard [id]="'allSpells'" [data]="data"></app-spellcard>
+                </div>
+                <div *ngIf="card.title==='Your Spells'">
+                    <app-spellcard [id]="'yourSpells'" [data]="yourData"></app-spellcard>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
