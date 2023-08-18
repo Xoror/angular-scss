@@ -1,8 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { MatDialogRef  } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
-import { FormControl } from '@angular/forms';
 import { SpellsService } from '../services/spells.service';
 
 import { Spell } from '../interfaces/spells';

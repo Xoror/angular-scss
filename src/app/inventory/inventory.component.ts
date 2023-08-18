@@ -3,7 +3,7 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Subscription, map } from 'rxjs';
 
 import { InventoryService } from '../services/inventory.service';
-import { ItemCalled, Item, ItemsCall } from '../interfaces/inventory';
+import { Item } from '../interfaces/inventory';
 
 @Component({
   selector: 'app-inventory',

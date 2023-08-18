@@ -6,6 +6,7 @@ export interface SpellsCall {
 
 export interface Spell {
     id: any,
+    prepared?: boolean;
     index?: string,
     name: string,
     url?: string,

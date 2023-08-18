@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@ang
 import { CommonModule, NgFor } from '@angular/common';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-import { MatDialog} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
@@ -12,7 +12,6 @@ import { FilterList } from '../interfaces/filters';
 import { Container, Item, Money } from '../interfaces/inventory';
 import { InventoryService } from '../services/inventory.service';
 import { AdditemComponent } from '../additem/additem.component';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
@@ -65,6 +64,18 @@ export class ItemcardComponent implements OnChanges, OnInit {
   itemsCalled: boolean = false;
   itemDetailsCalled: boolean = false;
 
+  onKeyUp(event: Event, id: string): void {
+    if(id === "filter") {
+      if((event as KeyboardEvent).key === " " || (event as KeyboardEvent).key === "Enter") {
+        this.toggleFilterbox()
+      }
+    }
+    else if(id === 'add') {
+      if((event as KeyboardEvent).key === " " || (event as KeyboardEvent).key === "Enter") {
+        this.openDialog()
+      }
+    }
+  }
   filterBox: boolean = false
   toggleFilterbox(): void {
     this.filterBox = !this.filterBox
@@ -168,7 +179,7 @@ export class ItemcardComponent implements OnChanges, OnInit {
       ]
     }
     this.id = changes["id"] != undefined ? changes["id"]["currentValue"] : this.id
-    if(this.id === "allItems") {
+    if(true) {
       this.itemsCalled = this.inventoryService.itemsFetched()
       this.itemDetailsCalled = this.inventoryService.itemDetailsFetched()
 

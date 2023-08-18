@@ -1,10 +1,15 @@
 .solo-chip {
     margin-top: 4px; 
     margin-bottom: 4px;
-    background-color: rgb(224, 224, 224);
-    &:hover {
-      cursor: pointer;
+    background-color: rgb(224, 224, 224) !important;
+    &:focus-visible  {
+      /*border: 2px solid #0d6efd;*/
+      box-shadow: 0 0 0 3px white !important;
+      outline: 2px solid #0d6efd !important;
     }
+}
+.mat-mdc-standard-chip {
+  --mdc-chip-background-color: black;
 }
 
 .column1 {

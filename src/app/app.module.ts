@@ -33,6 +33,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 import { InventoryComponent } from './inventory/inventory.component';
@@ -82,7 +83,8 @@ import { AdditemComponent } from './additem/additem.component';
     MatSelectModule,
     ReactiveFormsModule,
     NgFor,
-    NgForOf
+    NgForOf,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

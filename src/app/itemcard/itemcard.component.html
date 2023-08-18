@@ -12,33 +12,33 @@
     </div>
 </div>
 <div *ngIf="itemDetailsCalled">
-    <mat-chip *ngIf="filterBox" class="solo-chip" (click)="toggleFilterbox()">
+    <mat-chip-option tabindex="0" *ngIf="filterBox" class="solo-chip" selectable="false" (keyup)="$event.stopPropagation(); onKeyUp($event, 'filter');" (click)="toggleFilterbox()">
         <mat-icon matChipAvatar aria-hidden="false"  fontIcon="filter_list" alt="filter image"></mat-icon>
         {{filterBox ? "Hide":"Show"}} filter options
-    </mat-chip>
+    </mat-chip-option>
     <div *ngIf="filterBox" id="filter-box">
-        <p class="filter-header">Filter Item Category</p>
-        <mat-chip-listbox selectable multiple aria-label="item category filter selection">
+        <p class="filter-header"><label id="item-category-filter">Filter Item Category</label></p>
+        <mat-chip-listbox selectable multiple aria-labelledby="item-category-filter">
             <mat-chip-option  color="accent" *ngFor="let category of filterNameLists['category_options']" ariaSelected="isSelected(category, 'scategory_options')" [selected]="isSelected(category, 'category_options')" [value]="category" (click)="filtering(category, 'category_options')">
                 {{category}}
             </mat-chip-option>
         </mat-chip-listbox>
-        <p class="filter-header">Filter Rarities</p>
-        <mat-chip-listbox selectable multiple aria-label="item rarity selection">
+        <p class="filter-header"><label id="item-rarity-filter">Filter Rarities</label></p>
+        <mat-chip-listbox selectable multiple aria-labelledby="item-rarity-filter">
             <mat-chip-option color="accent" *ngFor="let rarity of filterNameLists['rarities']" ariaSelected="isSelected(rarity, 'rarities')" [selected]="isSelected(rarity, 'rarities')" [value]="rarity" (click)="filtering(rarity, 'rarities')">
                 {{rarity}}
             </mat-chip-option>
         </mat-chip-listbox>
     </div>
     <mat-divider></mat-divider>
-    <mat-chip class="solo-chip" (click)="toggleFilterbox()">
+    <mat-chip-option tabindex="0" class="solo-chip" selectable="false" (keyup)="$event.stopPropagation(); onKeyUp($event, 'filter');" (click)="toggleFilterbox()">
         <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="filter image"></mat-icon>
         {{filterBox ? "Hide":"Show"}} filter options
-    </mat-chip>
-    <mat-chip *ngIf="id === 'yourInventory'" class="solo-chip" (click)="openDialog()">
-        <mat-icon matChipAvatar aria-hidden="false"fontIcon="filter_list" alt="plus image"></mat-icon>
+    </mat-chip-option>
+    <mat-chip-option tabindex="0" *ngIf="id === 'yourInventory'" class="solo-chip" selectable="false" (keyup)="$event.stopPropagation(); onKeyUp($event, 'add');" (click)="openDialog()">
+        <mat-icon matChipAvatar aria-hidden="false"fontIcon="library_add" alt="add image"></mat-icon>
         Add Item
-    </mat-chip>
+    </mat-chip-option>
 </div>
 <div *ngIf="!itemDetailsCalled">
     <p>Loading item details...</p>

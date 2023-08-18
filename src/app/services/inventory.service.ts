@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 
 import { nanoid } from 'nanoid';
@@ -262,16 +262,22 @@ export class InventoryService {
       }
       return 0;
     })
-    this.totalWeight += item.weight
+    this.totalWeight += item.weight;
     this.yourItemsSource.next(this.yourItems);
-    this.containers.filter(container => container["id"] === item.container)[0]["weightContained"] += item.qty*item.weight
+    this.containers.filter(container => container["id"] === item.container)[0]["weightContained"] += item.qty*item.weight;
   }
   removeItem(item: Item): void {
     let index = this.yourItems.indexOf(this.yourItems.filter(item1 => item1.id === item.id)[0]);
-    this.totalWeight -= item.weight
+    this.totalWeight -= item.weight;
     this.yourItems = this.yourItems.slice(0, index).concat(this.yourItems.slice(index+1));
     this.yourItemsSource.next(this.yourItems);
-    this.containers.filter(container => container["id"] === item.container)[0]["weightContained"] -= item.qty*item.weight
+    this.containers.filter(container => container["id"] === item.container)[0]["weightContained"] -= item.qty*item.weight;
+  }
+  importItems(data: any):void {
+    this.yourItems = data.items;
+    this.containers = data.containers;
+    console.log(this.containers)
+    this.yourItemsSource.next(this.yourItems);
   }
   constructor(private http: HttpClient) {}
 }
