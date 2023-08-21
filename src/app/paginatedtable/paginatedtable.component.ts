@@ -73,8 +73,12 @@ export class PaginatedtableComponent implements OnInit, OnChanges, AfterViewInit
   dataSource = new MatTableDataSource<Spell | Item>([])
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  //@ViewChild(MatSort) sort!: MatSort;
   
+  prepareSpell(event: Event, spell: Spell) {
+    event.stopPropagation()
+    this.spellsService.prepareSpell(spell, (event.target as HTMLInputElement).checked)
+  }
   learnSpell(spell: Spell) {
     this.spellsService.learnSpell(spell)
   }
@@ -95,10 +99,14 @@ export class PaginatedtableComponent implements OnInit, OnChanges, AfterViewInit
   removeItem(item: Item) {
     this.inventoryService.removeItem(item)
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator
-    this.dataSource.sort = this.sort
+    //this.dataSource.sort = this.sort
   }
 
   ngOnChanges(changes: SimpleChanges) {

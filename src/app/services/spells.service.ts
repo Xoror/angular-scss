@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient  } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { nanoid } from 'nanoid';
 
@@ -69,7 +69,9 @@ export class SpellsService {
 
   learnSpell(spell: Spell): void {
     if(this.yourSpells.find(item => item.name === spell.name) === undefined) {
-      this.yourSpells = this.yourSpells.concat(spell);
+      let spellData = spell
+      spellData["prepared"] = false
+      this.yourSpells = this.yourSpells.concat(spellData);
       this.yourSpells = this.yourSpells.sort((item1, item2) => {
         if(item1.level > item2.level) {
           return 1;
@@ -85,6 +87,13 @@ export class SpellsService {
   removeSpell(spell: Spell): void {
     let index = this.yourSpells.indexOf(spell);
     this.yourSpells = this.yourSpells.slice(0, index).concat(this.yourSpells.slice(index+1));
+    this.yourSpellsSource.next(this.yourSpells);
+  }
+  prepareSpell(spell: Spell, checked: boolean): void {
+    this.yourSpells.filter(yourSpell => yourSpell.id === spell.id)[0].prepared = checked
+  }
+  importSpells(data: any):void {
+    this.yourSpells = data.spells;
     this.yourSpellsSource.next(this.yourSpells);
   }
   constructor(private http: HttpClient) {}

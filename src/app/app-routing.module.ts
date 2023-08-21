@@ -4,6 +4,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SpellsComponent } from './spells/spells.component';
 import { InventoryComponent } from './inventory/inventory.component';
 
+
+
 const routes: Routes = [
   { path: "", component: DashboardComponent},
   { path: "spells", component: SpellsComponent},
@@ -12,6 +14,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

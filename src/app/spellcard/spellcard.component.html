@@ -1,43 +1,43 @@
 <div *ngIf="spellDetailsCalled">
-    <mat-chip *ngIf="filterBox" class="solo-chip" (click)="toggleFilterbox()">
+    <mat-chip-option tabIndex="0" *ngIf="filterBox" class="solo-chip" selectable="false" (keyup)="$event.stopPropagation(); onKeyUp($event, 'filter');" (click)="toggleFilterbox()">
         <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="filter"></mat-icon>
         {{filterBox ? "Hide":"Show"}} filter options
-    </mat-chip>
+    </mat-chip-option>
     <div *ngIf="filterBox" id="filter-box">
-        <p class="filter-header">Filter Spell Tier</p>
-        <mat-chip-listbox selectable multiple aria-label="Spell level filter selection">
+        <p class="filter-header"><label id="spell-tier-filter">Filter Spell Tier</label></p>
+        <mat-chip-listbox selectable multiple aria-labelledby="spell-tier-filter">
             <mat-chip-option  color="accent" *ngFor="let level of filterNameLists['spellLevels']" ariaSelected="isSelected(level, 'spellLevels')" [selected]="isSelected(level, 'spellLevels')" [value]="level" (click)="filtering(level, 'spellLevels')">
                 {{level}}
             </mat-chip-option>
         </mat-chip-listbox>
-        <p class="filter-header">Filter Classes</p>
-        <mat-chip-listbox selectable multiple aria-label="Fish selection">
+        <p class="filter-header"><label id="spell-class-filter">Filter Classes</label></p>
+        <mat-chip-listbox selectable multiple aria-label="Spell class filter selection">
             <mat-chip-option color="accent" *ngFor="let class of filterNameLists['classes']" ariaSelected="isSelected(class, 'classes')" [selected]="isSelected(class, 'classes')" [value]="class" (click)="filtering(class, 'classes')">
                 {{class}}
             </mat-chip-option>
         </mat-chip-listbox>
-        <p class="filter-header">Filter Magic Schools</p>
-        <mat-chip-listbox selectable multiple aria-label="Fish selection">
+        <p class="filter-header"><label id="spell-school-filter">Filter Magic Schools</label></p>
+        <mat-chip-listbox selectable multiple aria-labelledby="spell-school-filter">
             <mat-chip-option color="accent" *ngFor="let school of filterNameLists['schools']" ariaSelected="isSelected(school, 'schools')" [selected]="isSelected(school, 'schools')" [value]="school" (click)="filtering(school, 'schools')">
                 {{school}}
             </mat-chip-option>
         </mat-chip-listbox>
-        <p class="filter-header"> Filter Ritual Spell</p>
-        <mat-chip-listbox selectable multiple aria-label="Fish selection">
+        <p class="filter-header"><label id="spell-ritual-filter">Ritual Spell</label></p>
+        <mat-chip-listbox selectable multiple aria-labelledby="spell-ritual-filter">
             <mat-chip-option color="accent" *ngFor="let ritual of filterNameLists['rituals']" ariaSelected="isSelected(ritual, 'rituals')" [selected]="isSelected(ritual, 'rituals')" [value]="ritual" (click)="filtering(ritual, 'rituals')">
                 {{ritual}}
             </mat-chip-option>
         </mat-chip-listbox> 
     </div>
     <mat-divider></mat-divider>
-    <mat-chip class="solo-chip" (click)="toggleFilterbox()">
+    <mat-chip-option tabIndex="0" class="solo-chip" selectable="false" (keyup)="$event.stopPropagation(); onKeyUp($event, 'filter');" (click)="toggleFilterbox()">
         <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="filter"></mat-icon>
         {{filterBox ? "Hide":"Show"}} filter options
-    </mat-chip>
-    <mat-chip *ngIf="id === 'yourSpells'" class="solo-chip" (click)="openDialog()">
+    </mat-chip-option>
+    <mat-chip-option tabIndex="0" *ngIf="id === 'yourSpells'"  class="solo-chip" selectable="false" (keyup)="$event.stopPropagation(); onKeyUp($event, 'add');" (click)="openDialog()">
         <mat-icon matChipAvatar aria-hidden="false" fontIcon="filter_list" alt="add"></mat-icon>
         Add Spell
-    </mat-chip>
+    </mat-chip-option>
 </div>
 <div *ngIf="!spellDetailsCalled">
     <p>Loading spell details...</p>

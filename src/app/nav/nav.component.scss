@@ -1,4 +1,5 @@
 @use '../../styles';
+@use "sass:color";
 
 .sidenav-container {
   background-color: styles.$color-2;
@@ -27,4 +28,21 @@
 .menu-panel {
   background-color: red;
   padding: 0;
+}
+.importInput {
+  display: none;
+}
+.importExportButton {
+  margin-left: 0.5em;
+  padding: 0.5em 0.75em;
+  border-radius: 0.375em;
+  border: 1px solid black;
+  background-color: styles.$color-5;
+  &:hover {
+    cursor: pointer;
+    background-color: color.scale(styles.$color-5, $lightness: -10%);
+  }
+  &:active {
+    background-color: color.scale(styles.$color-5, $lightness: -20%);
+  }
 }

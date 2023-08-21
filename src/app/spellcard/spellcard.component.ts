@@ -3,7 +3,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { MatDialog} from '@angular/material/dialog';
 
 import { FilterList } from '../interfaces/filters';
-import { Spell, SpellsCall } from '../interfaces/spells';
+import { Spell } from '../interfaces/spells';
 import { SpellsService } from '../services/spells.service';
 import { AddnewspellComponent } from '../addnewspell/addnewspell.component';
 
@@ -36,6 +36,18 @@ export class SpellcardComponent implements OnChanges, OnInit {
     classes:  [],
     schools: [],
     rituals: []
+  }
+  onKeyUp(event: Event, id: string): void {
+    if(id === "filter") {
+      if((event as KeyboardEvent).key === " " || (event as KeyboardEvent).key === "Enter") {
+        this.toggleFilterbox()
+      }
+    }
+    else if(id === 'add') {
+      if((event as KeyboardEvent).key === " " || (event as KeyboardEvent).key === "Enter") {
+        this.openDialog()
+      }
+    }
   }
   isSelected(testValue: string, id: string): boolean {
     return this.filterLists[id].find(item => testValue === item) ? true:false
@@ -142,6 +154,6 @@ export class SpellcardComponent implements OnChanges, OnInit {
     else {
       this.noSpells = false
     }
-    this.displayedColumns = this.id === 'yourSpells' ? (!this.noSpells ? (this.spellDetailsCalled ? ['learn', 'name', 'level', 'expand'] : ['name']) : ['name']) : this.displayedColumns 
+    this.displayedColumns = this.id === 'yourSpells' ? (!this.noSpells ? (this.spellDetailsCalled ? ['learn', 'prepared', 'name', 'level', 'expand'] : ['name']) : ['name']) : this.displayedColumns 
   }
 }

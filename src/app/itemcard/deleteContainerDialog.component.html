@@ -9,13 +9,13 @@
             </div>
         </mat-select>
     </mat-form-field>
-    <div *ngIf="!destroyItems">
+    <div *ngIf="destroyItems">
         <p>Choose which container the items are moved to</p>
         <mat-form-field color="accent">
             <mat-label id="move-to-container">Container:</mat-label>
             <mat-select formControlName="container">
                 <div *ngFor="let item of remainingContainers">
-                    <mat-option (onSelectionChange)="changeMoveToContainer(item['id'])"  [value]="item['id']">{{item["name"]}}</mat-option>
+                    <mat-option (onSelectionChange)="changeMoveToContainer(item['id'])" [value]="item['id']">{{item["name"]}}</mat-option>
                 </div>
             </mat-select>
         </mat-form-field>

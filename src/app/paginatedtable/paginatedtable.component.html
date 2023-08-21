@@ -3,7 +3,7 @@
        class="table" (matSortChange)="announceSortChange($event)" [attr.aria-label]="tableCaption">
 
     <ng-container *ngIf="!noData" matColumnDef="learn">
-        <th mat-header-cell *matHeaderCellDef>Learn</th>
+        <th mat-header-cell *matHeaderCellDef>{{id === 'allSpells' ? 'Learn' : 'Rem.'}}</th>
         <td mat-cell *matCellDef="let spell">
             <button *ngIf="id === 'allSpells'" mat-icon-button aria-label="Button to learn a spell" (click)="learnSpell(spell); $event.stopPropagation();">
                 <mat-icon>add_circle_outline</mat-icon>
@@ -24,22 +24,33 @@
           </button>
       </td>
   </ng-container>
-
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let spell"> {{spell.name}} </td>
-    </ng-container>
-    <ng-container matColumnDef="level">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Level</th>
-        <td mat-cell *matCellDef="let spell"> {{spell.level}} </td>
-    </ng-container>
-    <ng-container matColumnDef="rarity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rarity</th>
-      <td mat-cell *matCellDef="let item"> {{item.rarity}} </td>
+  <ng-container matColumnDef="prepared">
+    <th mat-header-cell *matHeaderCellDef >
+      <div style="float: center; padding-top: 0.5em; padding-bottom: 0.25em;" id="prepared-column" aria-label="prepared column"> Prep </div>    
+    </th>
+    <td mat-cell *matCellDef="let spell" style="width: 1em;" aria-labelledby="prepared-column">
+      <mat-checkbox [aria-label]="'prepared checkbox'" [checked]="spell.prepared" (click)="prepareSpell($event, spell)">
+      </mat-checkbox>  
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef >
+        <div style="float: left; padding-top: 0.5em; padding-bottom: 0.25em;">Name </div>
+        <input aria-label="name filter input" class="search-input" matInput (keyup)="applyFilter($event)" placeholder="Search...">
+      </th>
+      <td mat-cell *matCellDef="let spell"> {{spell.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="level">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Level</th>
+      <td mat-cell *matCellDef="let spell"> {{spell.level}} </td>
+  </ng-container>
+  <ng-container matColumnDef="rarity">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Rarity</th>
+    <td mat-cell *matCellDef="let item"> {{item.rarity}} </td>
   </ng-container>
   
   <ng-container matColumnDef="expand">
-    <th mat-header-cell *matHeaderCellDef aria-label="row actions">Deatils</th>
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">Details</th>
     <td mat-cell *matCellDef="let spell">
       <button mat-icon-button aria-label="expand row" (click)="changeExpandedElementVariable(spell, $event); $event.stopPropagation()">
         <mat-icon *ngIf="expandedElement.id !== spell.id">keyboard_arrow_down</mat-icon>
