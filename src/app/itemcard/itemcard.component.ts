@@ -40,6 +40,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 export class ItemcardComponent implements OnChanges, OnInit {
   @Input() data: any[] = []
   @Input() id: string = "bla"
+  @Input() itemsCalled: boolean = false; 
+  @Input() itemDetailsCalled: boolean = false;
+
   moneyPouch: Money[] = []
   totalWeight: number = 0
 
@@ -60,9 +63,6 @@ export class ItemcardComponent implements OnChanges, OnInit {
   isContainerExpanded(id: string) {
     return this.containersExpanded.find(item => item === id) != undefined ? false : true
   }
-
-  itemsCalled: boolean = false;
-  itemDetailsCalled: boolean = false;
 
   onKeyUp(event: Event, id: string): void {
     if(id === "filter") {
@@ -159,18 +159,22 @@ export class ItemcardComponent implements OnChanges, OnInit {
 
   }
   ngOnInit(): void {
-    this.itemsCalled = this.inventoryService.itemsFetched();
-    this.itemDetailsCalled = this.inventoryService.itemDetailsFetched();
+    if(this.id === "yourInventory") {
+      this.itemsCalled = true;
+      this.itemDetailsCalled = true;
+    }
     this.displayedColumns = this.itemDetailsCalled ? ['add', 'name', 'rarity', 'expand'] : ['name']
     this.displayedColumns = this.id === 'yourInventory' ? (!(this.data[0].name === "Add Items to your Inventory") ? (this.itemDetailsCalled ? ['add', 'name', 'rarity', 'expand'] : ['name']) : ['name']) : this.displayedColumns
     if(this.id === "yourInventory") {
-      this.itemDetailsCalled = true
       for(let container of this.containers) {
         this.dataFilteredByContainers[container["id"]] = this.data.filter(item => item.container === container["id"])
       }
     }
   }
   ngOnChanges(changes: SimpleChanges) {
+    this.itemsCalled = changes["itemsCalled"] != undefined ? changes["itemsCalled"]["currentValue"] : this.itemsCalled;
+    this.itemDetailsCalled = changes["itemDetailsCalled"] != undefined ? changes["itemDetailsCalled"]["currentValue"] : this.itemDetailsCalled;
+
     this.data = changes["data"] != undefined ? [...changes["data"]["currentValue"]] : this.data
     if(this.data.length === 0) {
       this.data = [
@@ -180,9 +184,6 @@ export class ItemcardComponent implements OnChanges, OnInit {
     }
     this.id = changes["id"] != undefined ? changes["id"]["currentValue"] : this.id
     if(true) {
-      this.itemsCalled = this.inventoryService.itemsFetched()
-      this.itemDetailsCalled = this.inventoryService.itemDetailsFetched()
-
       if(this.data[0].name === "Add Items to your Inventory") {
         this.data = [{name: "Loading items..."}];
       }

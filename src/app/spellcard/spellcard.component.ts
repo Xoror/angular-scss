@@ -16,10 +16,10 @@ import { AddnewspellComponent } from '../addnewspell/addnewspell.component';
 export class SpellcardComponent implements OnChanges, OnInit {
   @Input() data: any[] = []
   @Input() id: string = "bla"
+  @Input() spellDetailsCalled: boolean = false
   displayedColumns: string[] = []
   noSpells: boolean = true
 
-  spellDetailsCalled: boolean = false;
 
   filterBox: boolean = false
   toggleFilterbox(): void {
@@ -132,12 +132,13 @@ export class SpellcardComponent implements OnChanges, OnInit {
     this.displayedColumns = this.id === 'yourSpells' ? (!(this.data[0].name === "Add Spells to your Grimoire") ? (this.spellDetailsCalled ? ['learn', 'name', 'level', 'expand'] : ['name']) : ['name']) : this.displayedColumns
   }
   ngOnChanges(changes: SimpleChanges) {
+    this.spellDetailsCalled = changes["spellDetailsCalled"] != undefined ? changes["spellDetailsCalled"]["currentValue"] : this.spellDetailsCalled
     this.data = changes["data"] != undefined ? [...changes["data"]["currentValue"]] : this.data
     if(this.data.length === 0) {
       this.data = [{name:"Add Spells to your Grimoire"}]
     }
     this.id = changes["id"] != undefined ? changes["id"]["currentValue"] : this.id
-    if(this.id === "allSpells") {
+    if(false/*this.id === "allSpells"*/) {
       if(this.spellDetailsCalled != this.spellsService.spellDetailsCalled) {
         this.spellDetailsCalled = this.spellsService.spellDetailsCalled
       }

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { SpellsService } from '../services/spells.service';
 import { Spell, SpellsCall } from '../interfaces/spells';
@@ -66,6 +66,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
       ];
     })
   );
+  
    ngOnInit(): void {
      this.getSpells();
    }

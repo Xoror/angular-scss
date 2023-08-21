@@ -110,8 +110,8 @@ export class PaginatedtableComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.data = changes["data"]["currentValue"];
-    this.dataSource.data = changes["data"]["currentValue"];
+    this.data = changes["data"] != undefined ? [...changes["data"]["currentValue"]] : this.data;
+    this.dataSource.data = this.data
     if(changes["displayedColumns"] != undefined) {
       this.displayedColumns = changes["displayedColumns"]["currentValue"];
     }

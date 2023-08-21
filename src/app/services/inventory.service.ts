@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 
 import { nanoid } from 'nanoid';
 
@@ -19,8 +19,11 @@ export class InventoryService {
     {name: "Silver", shortName: "sp", value: 0},
     {name: "Copper", shortName: "cp", value: 0},
   ]
+  private moneyPouchSource = new Subject<Money[]>();
+  moneyPouch$ = this.moneyPouchSource.asObservable();
   changeMoney(pouch: Money[]) {
     this.moneyPouch = pouch
+    this.moneyPouchSource.next(this.moneyPouch)
   }
   itemsSeparate: any = {
     mundane: {
@@ -48,9 +51,13 @@ export class InventoryService {
     {id: nanoid(), name: "Equipment", weight:0, maxWeightIn: 0, weightContained: 0},
     {id: nanoid(), name: "Backpack", weight: 2, maxWeightIn: 30, weightContained: 0}
   ]
+  private containersSource = new Subject<Container[]>
+  containers$ = this.containersSource.asObservable()
+
   addContainer(container: Container): void {
     this.containers.push(container);
     this.totalWeight += container['weight'];
+    this.containersSource.next(this.containers)
   }
   deleteContainer(containerToBeDestroyed: string, containerToMoveTo: string, destroyItems: boolean) {
     if(destroyItems) {
@@ -67,6 +74,7 @@ export class InventoryService {
       this.yourItemsSource.next(this.yourItems);
     }
     this.containers = this.containers.filter(item => item["id"] != containerToBeDestroyed);
+    this.containersSource.next(this.containers)
   }
 
   items: Item[] = [];
@@ -85,9 +93,10 @@ export class InventoryService {
       return of(result as T);
     };
   }
+  protected subscriptions: Subscription[] = []
   url: string = "";
   getItems(id: string): void {
-   this.http.get<ItemsCall>(this.itemsSeparate[id].url)
+    let subscription = this.http.get<ItemsCall>(this.itemsSeparate[id].url)
       .pipe(
         //tap(result => console.log(result)),
         tap(result => this.itemsSeparate[id].itemsCall = result),
@@ -96,12 +105,13 @@ export class InventoryService {
         tap(result => this.constructItems()),
         catchError(this.handleError<ItemsCall>('getItems', {count: 0, results:[]}))
       ).subscribe();
+    this.subscriptions.push(subscription)
   }
   getItemDetails(id: string): void {
     if(!this.itemsSeparate[id].itemDetailsCalled)
       for(let i=0; i<this.itemsSeparate[id].itemsCall.count; i++) {
         let url: string = "https://www.dnd5eapi.co"+ this.itemsSeparate[id].itemsCall.results[i]["url"]
-        this.http.get<ItemCalled>(url)
+        let subscription = this.http.get<ItemCalled>(url)
           .pipe(
             tap(result => this.itemsSeparate[id].itemDetailsCall.results = this.itemsSeparate[id].itemDetailsCall.results.concat(this.convertItemTemplate(result, id))),
             tap(result => this.itemsSeparate[id].itemDetailsCall.count += 1),
@@ -112,6 +122,7 @@ export class InventoryService {
               this.construcDetailedItems()
             }),
           ).subscribe();
+        this.subscriptions.push(subscription)
       }
   }
   constructItems(): void {
@@ -274,10 +285,27 @@ export class InventoryService {
     this.containers.filter(container => container["id"] === item.container)[0]["weightContained"] -= item.qty*item.weight;
   }
   importItems(data: any):void {
-    this.yourItems = data.items;
+    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions = [];
     this.containers = data.containers;
-    console.log(this.containers)
-    this.yourItemsSource.next(this.yourItems);
+    this.containersSource.next(this.containers)
+    this.totalWeight = data.totalWeight;
+    this.moneyPouch = data.moneyPouch;
+    this.moneyPouchSource.next(this.moneyPouch)
+    this.itemsSeparate = data.items
+    this.items = data.items["mundane"].itemDetailsCall.results.concat(data.items["magic"].itemDetailsCall.results);
+    this.items = this.items.sort((item1, item2) => {
+      if(item1.name > item2.name) {
+        return 1;
+      }
+      if(item1.name < item2.name) {
+        return -1;
+      }
+      return 0;
+    })
+    this.itemsSource.next(this.items)
+    this.yourItems = data.yourItems
+    this.yourItemsSource.next(data.yourItems)
   }
   constructor(private http: HttpClient) {}
 }

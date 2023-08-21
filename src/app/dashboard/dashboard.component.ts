@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { Subscription, map } from 'rxjs';
 
 import { InventoryService } from '../services/inventory.service';
 import { SpellsService } from '../services/spells.service';
@@ -12,10 +12,21 @@ import { SpellsService } from '../services/spells.service';
 })
 export class DashboardComponent{
   private breakpointObserver = inject(BreakpointObserver);
-  
-  constructor(private inventoryService: InventoryService, private spellsService: SpellsService) {}
   yourSpells = this.spellsService.yourSpells
+  yourSpellsSubscription: Subscription;
+
   yourItems = this.inventoryService.yourItems
+  yourItemsSubscription: Subscription;
+  
+  constructor(private inventoryService: InventoryService, private spellsService: SpellsService) {
+    this.yourItemsSubscription = this.inventoryService.yourItems$.subscribe(items => {
+      this.yourItems = items;
+    });
+    this.yourSpellsSubscription = this.spellsService.yourSpells$.subscribe(spells => {
+      this.yourSpells = spells;
+    });
+  }
+  
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Medium).pipe(
     map(({ matches }) => {

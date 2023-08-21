@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient  } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { nanoid } from 'nanoid';
 
 import { SpellsCall, Spell } from '../interfaces/spells';
@@ -35,8 +35,9 @@ export class SpellsService {
     this.spells = {count: 0, results: []};
     this.spellDetails = {count:0, results:[]}
   } 
+  subscriptions: Subscription[] = []
   getSpells(extensions: string): void {
-    this.http.get<SpellsCall>(this.url  + extensions)
+    let subscription = this.http.get<SpellsCall>(this.url  + extensions)
       .pipe(
         tap(result => this.spells = result),
         tap(result => this.spellsSource.next(result)),
@@ -44,11 +45,12 @@ export class SpellsService {
         //tap(result => console.log(result)),
         catchError(this.handleError<SpellsCall>('getSpells', {count: 0, results:[]}))
       ).subscribe();
+    this.subscriptions.push(subscription)
   }
   getSpellDetails(): void {
     for(let i=0; i<this.spells.count;i++) {
       let url: string = "https://www.dnd5eapi.co"+ this.spells.results[i]["url"]
-      this.http.get<Spell>(url)
+      let subscription = this.http.get<Spell>(url)
         .pipe(
           tap(result => this.spellDetails.results = this.spellDetails.results.concat(result)),
           tap(result => this.spellDetails.count += 1),
@@ -64,6 +66,7 @@ export class SpellsService {
           }),
           //tap(result => console.log(this.spellDetails))
         ).subscribe();
+        this.subscriptions.push(subscription)
     }
   }
 
@@ -93,8 +96,13 @@ export class SpellsService {
     this.yourSpells.filter(yourSpell => yourSpell.id === spell.id)[0].prepared = checked
   }
   importSpells(data: any):void {
-    this.yourSpells = data.spells;
+    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions = [];
+    this.spells = data.spells;
+    this.spellsSource.next(this.spells);
+    this.yourSpells = data.yourSpells;
     this.yourSpellsSource.next(this.yourSpells);
+    this.spellDetailsCalled = data.spellDetailsCalled;
   }
   constructor(private http: HttpClient) {}
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input, inject, OnChanges, SimpleChanges } from '@angular/core';
 
 import { NavService } from '../services/nav.service';
 import { SpellsService } from '../services/spells.service';
@@ -14,7 +14,7 @@ import { map, shareReplay } from 'rxjs/operators';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class NavComponent {
+export class NavComponent implements OnChanges {
   private breakpointObserver = inject(BreakpointObserver);
 
   navigationVariable: string = "spells"
@@ -24,8 +24,16 @@ export class NavComponent {
   }
   exportToJson(event: Event): void {
     event.preventDefault()
-
-    let state = {spells: this.spellsService.yourSpells, items: this.inventoryService.yourItems, containers: this.inventoryService.containers}
+    let state = {
+      spells: this.spellsService.spells,
+      yourSpells: this.spellsService.yourSpells, 
+      spellDetailsCalled: this.spellsService.spellDetailsCalled,
+      items: this.inventoryService.itemsSeparate,
+      yourItems: this.inventoryService.yourItems,
+      containers: this.inventoryService.containers,
+      totalWeight: this.inventoryService.totalWeight,
+      moneyPouch: this.inventoryService.moneyPouch
+    }
     this.navService.exportToJson(state)
   }
   readFileOnUpload(event: Event): void {
@@ -37,6 +45,9 @@ export class NavComponent {
       map(result => !result.matches),
       shareReplay()
     );
-  
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes["state"]["currentValue"])
+    sessionStorage.setItem("spells-inventory-manager-data", JSON.stringify(changes["state"]["currentValue"]))
+  }
   constructor (private navService: NavService, private spellsService: SpellsService, private inventoryService: InventoryService) {}
 }

@@ -19,10 +19,10 @@
             </mat-card-header>
             <mat-card-content class="card-content">
                 <div *ngIf="card.title==='All Spells'">
-                    <app-spellcard [id]="'allSpells'" [data]="data"></app-spellcard>
+                    <app-spellcard [id]="'allSpells'" [data]="data" [spellDetailsCalled]="spellDetailsCalled"></app-spellcard>
                 </div>
                 <div *ngIf="card.title==='Your Spells'">
-                    <app-spellcard [id]="'yourSpells'" [data]="yourData"></app-spellcard>
+                    <app-spellcard [id]="'yourSpells'" [data]="yourData" [spellDetailsCalled]="spellDetailsCalled"></app-spellcard>
                 </div>
             </mat-card-content>
         </mat-card>

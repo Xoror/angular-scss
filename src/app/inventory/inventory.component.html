@@ -19,10 +19,10 @@
             </mat-card-header>
             <mat-card-content class="card-content">
                 <div *ngIf="card.title==='All Items'">
-                    <app-itemcard [id]="'allItems'" [data]="data"></app-itemcard>
+                    <app-itemcard [id]="'allItems'" [data]="data" [itemsCalled]="itemsCalled" [itemDetailsCalled]="itemDetailsCalled"></app-itemcard>
                 </div>
                 <div *ngIf="card.title==='Your Inventory'">
-                    <app-itemcard [id]="'yourInventory'" [data]="yourData"></app-itemcard>
+                    <app-itemcard [id]="'yourInventory'" [data]="yourData" [itemsCalled]="itemsCalled" [itemDetailsCalled]="itemDetailsCalled"></app-itemcard>
                 </div>
             </mat-card-content>
         </mat-card>

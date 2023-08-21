@@ -13,7 +13,9 @@ import { Item } from '../interfaces/inventory';
 export class InventoryComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
 
-  itemDetailsCalled: boolean = this.inventoryService.itemsSeparate["mundane"].itemsCalled && this.inventoryService.itemsSeparate["magic"].itemsCalled
+  itemsCalled: boolean = this.inventoryService.itemsFetched();
+  itemDetailsCalled:boolean = this.inventoryService.itemDetailsFetched();
+
   items: any;
   itemsSubscription: Subscription;
   data: Item[] = this.inventoryService.items
@@ -34,11 +36,11 @@ export class InventoryComponent implements OnInit {
    }
 
    constructor(private inventoryService: InventoryService) {
-    this.data = inventoryService.items
-    this.yourData = inventoryService.yourItems
     this.itemsSubscription = this.inventoryService.items$.subscribe(items => {
       this.items = items;
       this.data = this.items;
+      this.itemsCalled = this.inventoryService.itemsFetched();
+      this.itemDetailsCalled = this.inventoryService.itemDetailsFetched();
     });
     this.yourItemsSubscription = this.inventoryService.yourItems$.subscribe(items => {
       this.yourItems = items;
