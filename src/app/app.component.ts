@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   toggleDarkTheme(): void {
     document.body.classList.toggle('dark-theme');
   }
-  state: any
+  state: any;
   getState(): any {
     let buildState = {
       spells: this.spellsService.spells,
@@ -23,15 +23,15 @@ export class AppComponent implements OnInit {
       containers: this.inventoryService.containers,
       totalWeight: this.inventoryService.totalWeight,
       moneyPouch: this.inventoryService.moneyPouch
-    }
-    return buildState
+    };
+    return buildState;
   }
   setSessionStorage(): void {
-    let saveState = JSON.stringify(this.getState())
-    sessionStorage.setItem("spells-inventory-manager", saveState)
+    let saveState = JSON.stringify(this.getState());
+    sessionStorage.setItem("spells-inventory-manager", saveState);
   }
   ngOnInit(): void {
-    let sessionSave = sessionStorage.getItem("spells-inventory-manager")
+    let sessionSave = sessionStorage.getItem("spells-inventory-manager");
     this.inventoryService.importItems(JSON.parse(sessionSave as string));
     this.spellsService.importSpells(JSON.parse(sessionSave as string));
   }

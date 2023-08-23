@@ -1,4 +1,4 @@
-import { Component, Input, inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject} from '@angular/core';
 
 import { NavService } from '../services/nav.service';
 import { SpellsService } from '../services/spells.service';
@@ -14,7 +14,7 @@ import { map, shareReplay } from 'rxjs/operators';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class NavComponent implements OnChanges {
+export class NavComponent {
   private breakpointObserver = inject(BreakpointObserver);
 
   navigationVariable: string = "spells"
@@ -33,8 +33,8 @@ export class NavComponent implements OnChanges {
       containers: this.inventoryService.containers,
       totalWeight: this.inventoryService.totalWeight,
       moneyPouch: this.inventoryService.moneyPouch
-    }
-    this.navService.exportToJson(state)
+    };
+    this.navService.exportToJson(state);
   }
   readFileOnUpload(event: Event): void {
     this.navService.readFileOnUpload(event)
@@ -45,9 +45,6 @@ export class NavComponent implements OnChanges {
       map(result => !result.matches),
       shareReplay()
     );
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes["state"]["currentValue"])
-    sessionStorage.setItem("spells-inventory-manager-data", JSON.stringify(changes["state"]["currentValue"]))
-  }
+  
   constructor (private navService: NavService, private spellsService: SpellsService, private inventoryService: InventoryService) {}
 }
