@@ -1,22 +1,34 @@
 .solo-chip {
-    margin-top: 4px; 
-    margin-bottom: 4px;
-    background-color: rgb(224, 224, 224);
-    &:hover {
-      cursor: pointer;
-    }
+  margin-top: 0.25em; 
+  margin-bottom: 0.25em;
+  background-color: rgb(224, 224, 224);
+  &:hover {
+    cursor: pointer;
+  }
 }
 .mat-mdc-standard-chip {
   --mdc-chip-background-color: black;
 }
 
-.column1 {
-  grid-area: auto / 1 / span 1 / span 2;
-  text-align: left;
+@media (min-width: 576px) {
+  .column1 {
+    grid-area: auto / 1 / span 1 / span 2;
+    text-align: left;
+  }
+  .column2 {
+    grid-area: auto / 3 / span 1 / span 2;
+    text-align: right;
+  }
 }
-.column2 {
-  grid-area: auto / 3 / span 1 / span 2;
-  text-align: right;
+@media (max-width: 575px) {
+  .column1 {
+    grid-area: 1 / 1 / span 1 / span 1;
+    text-align: left;
+  }
+  .column2 {
+    grid-area: 2 / 1 / span 1 / span 1;
+    text-align: right;
+  }
 }
 
 

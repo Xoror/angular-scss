@@ -59,7 +59,7 @@ export class InventoryComponent implements OnInit {
 
       return [
         { title: 'Your Inventory', cols: 2, rows: 2, class: "card left" },
-        { title: 'All Items', cols: 2, rows: 2, class: "card right bottom" }
+        { title: 'All Items', cols: 2, rows: 2, class: "card right" }
       ];
     })
   );

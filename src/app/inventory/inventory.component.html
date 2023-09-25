@@ -1,5 +1,5 @@
 <div class="grid-container">
-    <h1 class="mat-h1">Inventory Manager</h1>
+    <h1 class="mat-h1" style="margin: 0.75em">Inventory Manager</h1>
     <mat-grid-list style="height: calc(100vh - 164px);" cols="2" rowHeight="fit">
         <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
         <mat-card class={{card.class}}>
