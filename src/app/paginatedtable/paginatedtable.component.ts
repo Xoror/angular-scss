@@ -151,6 +151,7 @@ export class PaginatedtableComponent implements OnInit, OnChanges, AfterViewInit
       console.log(`Dialog result: ${result}`);
     });
   }
+  
 }
 
 interface Placeholder {

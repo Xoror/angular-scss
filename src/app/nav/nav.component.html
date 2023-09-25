@@ -10,21 +10,8 @@
         <mat-icon aria-label="menu icon">menu</mat-icon>
       </button>
       <span>Spells and Inventory Manager</span>
-      <button
-        class="importExportButton"
-        aria-label="menu button"
-        (click)="exportToJson($event)"
-      >
-        Export to File
-      </button>
-      <button
-        class="importExportButton"
-        onclick="document.getElementById('importStateFromFile').click()"
-      > 
-        Import from File
-      </button>
       <input aria-label="hidden file input triggered by button" class="importInput" id="importStateFromFile" type="file" (change)="readFileOnUpload($event)">
-      <mat-menu #mainMenu>
+      <mat-menu #mainMenu >
         <mat-nav-list style="padding:0; background-color: rgb(214, 214, 214);">
           <ng-template overlayPanelClass="menu-panel" matMenuContent>
             <a mat-menu-item routerLink="/">Home</a>
@@ -32,6 +19,18 @@
             <a mat-menu-item routerLink="/inventory">Inventory</a>
           </ng-template>
         </mat-nav-list>
+        <mat-action-list style="padding:0; background-color: rgb(214, 214, 214);"> 
+          <mat-divider></mat-divider>
+            <button mat-menu-item (click)="newCharacter()" >
+              New Character
+            </button>
+            <button mat-menu-item onclick="document.getElementById('importStateFromFile').click()" > 
+              Import from File
+            </button>
+            <button mat-menu-item (click)="exportToJson($event)" >
+              Export to File
+            </button>
+        </mat-action-list>
       </mat-menu>
     </mat-toolbar>
     <router-outlet></router-outlet>

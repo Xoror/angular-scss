@@ -1,31 +1,24 @@
 <div class="grid-container">
     <h1 class="mat-h1" style="margin: 0.75em">Spell Manager</h1>
-    <mat-grid-list style="height: calc(100vh - 164px);" cols="2" rowHeight="fit">
-        <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-            <mat-card class={{card.class}}>
-                <mat-card-header>
-                    <mat-card-title>
-                        <h3>{{card.title}}</h3>
-                        <div *ngIf="false">
-                            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                            <mat-icon>more_vert</mat-icon>
-                            </button>
-                            <mat-menu #menu="matMenu" xPosition="before">
-                                <button mat-menu-item>Expand</button>
-                                <button mat-menu-item>Remove</button>
-                            </mat-menu>
-                        </div>
-                    </mat-card-title>
-                </mat-card-header>
-                <mat-card-content class="card-content">
-                    <div *ngIf="card.title==='All Spells'">
-                        <app-spellcard [id]="'allSpells'" [data]="data" [spellDetailsCalled]="spellDetailsCalled"></app-spellcard>
-                    </div>
-                    <div *ngIf="card.title==='Your Spells'">
-                        <app-spellcard [id]="'yourSpells'" [data]="yourData" [spellDetailsCalled]="spellDetailsCalled"></app-spellcard>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-    </mat-grid-list>
+    <div style="display: grid; gap: 0;">
+        <mat-card *ngFor="let card of cards | async" [style]="cardStyle" class={{card.class}}>
+            <mat-card-header>
+                <mat-card-title>
+                    <h3>{{card.title}}</h3>
+                    <button mat-icon-button aria-label="expand row" class="expand-card-button" *ngIf="card.expandMenu" (click)="expandCard(card.title)">
+                        <mat-icon *ngIf="!isCardExpanded(card.title)">keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="isCardExpanded(card.title)">keyboard_arrow_up</mat-icon>
+                    </button>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content [class]="isCardExpanded(card.title) ? 'card-content' : 'visually-hidden'">
+                <div *ngIf="card.title==='All Spells'">
+                    <app-spellcard [id]="'allSpells'" [data]="data" [spellDetailsCalled]="spellDetailsCalled"></app-spellcard>
+                </div>
+                <div *ngIf="card.title==='Your Spells'">
+                    <app-spellcard [id]="'yourSpells'" [data]="yourData" [spellDetailsCalled]="spellDetailsCalled"></app-spellcard>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>

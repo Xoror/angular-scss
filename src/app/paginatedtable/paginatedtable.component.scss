@@ -1,5 +1,13 @@
 @use './../../styles';
 
+@media (max-width: 959px) {
+  .mdc-data-table__cell {
+    padding: 0 0.5em 0 0.5em;
+  }
+  .mdc-data-table__header-cell {
+    padding: 0 0.5em 0 0.5em;
+  }
+}
 
 .mat-column-learn {
     width: 50px;

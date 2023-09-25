@@ -4,6 +4,88 @@ import { SpellsService } from './spells.service';
 import { InventoryService } from './inventory.service';
 import { HttpEvent } from '@angular/common/http';
 
+const initialState = {
+	"spells": {
+		"count": 0,
+		"results": []
+	},
+	"yourSpells": [],
+	"spellDetailsCalled": false,
+	"items": {
+		"mundane": {
+			"itemsCalled": false,
+			"itemDetailsCalled": false,
+			"itemsCall": {
+				"count": 0,
+				"results": []
+			},
+			"itemDetailsCall": {
+				"count": 0,
+				"results": []
+			},
+			"url": "https://www.dnd5eapi.co/api/equipment"
+		},
+		"magic": {
+			"itemsCalled": false,
+			"itemDetailsCalled": false,
+			"itemsCall": {
+				"count": 0,
+				"results": []
+			},
+			"itemDetailsCall": {
+				"count": 0,
+				"results": []
+			},
+			"url": "https://www.dnd5eapi.co/api/magic-items"
+		}
+	},
+	"yourItems": [],
+	"containers": [
+		{
+			"id": "GYx3edbuIoXKywJmbcNma",
+			"name": "Equipment",
+			"weight": 0,
+			"maxWeightIn": 0,
+			"weightContained": 0
+		},
+		{
+			"id": "q69PCwUXQqN7b5RmVYu9t",
+			"name": "Backpack",
+			"weight": 2,
+			"maxWeightIn": 30,
+			"weightContained": 0
+		}
+	],
+	"totalWeight": 2,
+	"moneyPouch": [
+		{
+			"name": "Platinum",
+			"shortName": "pt",
+			"value": 0
+		},
+		{
+			"name": "Gold",
+			"shortName": "gp",
+			"value": 0
+		},
+		{
+			"name": "Electrum",
+			"shortName": "ep",
+			"value": 0
+		},
+		{
+			"name": "Silver",
+			"shortName": "sp",
+			"value": 0
+		},
+		{
+			"name": "Copper",
+			"shortName": "cp",
+			"value": 0
+		}
+	]
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -60,5 +142,10 @@ export class NavService {
         console.log("**Not valid JSON file!**");
       }
     }
+  }
+
+  newCharacter() : void {
+    this.inventoryService.importItems((initialState));
+    this.spellsService.importSpells((initialState));
   }
 }

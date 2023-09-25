@@ -54,7 +54,7 @@
     <td mat-cell *matCellDef="let spell">
       <button mat-icon-button aria-label="expand row" (click)="changeExpandedElementVariable(spell, $event); $event.stopPropagation()">
         <mat-icon *ngIf="expandedElement.id !== spell.id">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="expandedElement.id === spell.id">keyboard_arrow_up</mat-icon>
+        <mat-icon *ngIf="expandedElement.id === spell.id">keyboard_arrow_up</mat-icon>
       </button>
     </td>
   </ng-container>

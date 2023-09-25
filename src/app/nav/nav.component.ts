@@ -39,6 +39,9 @@ export class NavComponent {
   readFileOnUpload(event: Event): void {
     this.navService.readFileOnUpload(event)
   }
+  newCharacter(): void {
+    this.navService.newCharacter()
+  }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Medium)
     .pipe(
